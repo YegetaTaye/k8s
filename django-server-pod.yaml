@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: django-server-pod
+  labels:
+    app: django-server
+spec:
+  containers:
+    - name: django-server
+      image: yegeta100/review-service:v1
