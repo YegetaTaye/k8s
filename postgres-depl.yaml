@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: postgres-depl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: postgres
+  template:
+    metadata:
+      name: postgres-pod
+      labels:
+        app: postgres
+    spec:
+      containers:
+        - name: postgres
+          image: postgres:13
+          ports:
+            - containerPort: 5432 # PostgreSQL default port
+          env:
+            - name: POSTGRES_USER
+              value: "root"
+            - name: POSTGRES_PASSWORD
+              value: "asdf1234" # Replace with a secure password
+            - name: POSTGRES_DB
+              value: "review_db" # Automatically create this database
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgres-srv
+spec:
+  selector:
+    app: postgres
+  ports:
+    - name: db2
+      protocol: TCP
+      port: 5432
+      targetPort: 5432
